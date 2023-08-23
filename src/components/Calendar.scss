@@ -67,7 +67,9 @@
 }
 
 .month {
+   @include flexRow;
    flex-grow: 1;
+   gap: 0.5rem;
    text-align: center;
 }
 
@@ -86,6 +88,7 @@
 .displayDate {
    @include flexRow;
    flex-wrap: wrap;
+   background-color: lightgray;
 }
 
 .date {
@@ -94,6 +97,8 @@
   border: 1px solid lightgray;
   border-left: 1px transparent;
   border-bottom: 1px transparent;
+  background-color: white;
+  z-index:2;    
 }
 
 
