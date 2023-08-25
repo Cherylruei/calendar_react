@@ -93,12 +93,6 @@
     text-align: center;
 }
 
-.displayDate {
-   @include flexRow;
-   flex-wrap: wrap;
-   background-color: lightgray;
-}
-
 .date {
   flex: 1 0 13%;
   height: 7rem;

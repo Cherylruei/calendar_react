@@ -10,6 +10,7 @@ const Calendar = () => {
     { year: 2017, month: 10 },
     { year: 2017, month: 11 },
   ]);
+
   const newDisplayMonthsRef = useRef([]);
 
   const daysOfWeek = [
@@ -46,10 +47,17 @@ const Calendar = () => {
   };
 
   const setPreviousMonth = () => {
-    const currentPosition = displayMonth.indexOf(currentMonth);
+    const currentPosition = displayMonth.findIndex(
+      (item) => item.month === currentMonth
+    );
+    const updatedMonths = displayMonth.map((item) => ({
+      year: item.year + Math.floor((item.month - 1) / 12),
+      month: (item.month - 1) % 12 === -1 ? 11 : (item.month - 1) % 12,
+    }));
     if (currentPosition === 0) {
-      const updatedMonths = displayMonth.map((month) => month - 1);
       setDisplayMonth(updatedMonths);
+      setCurrentMonth(updatedMonths[0].month);
+      setCurrentYear(updatedMonths[0].year);
     } else {
       setCurrentMonth(currentMonth - 1);
     }
