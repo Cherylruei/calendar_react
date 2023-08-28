@@ -22,6 +22,13 @@ export function getDaysInMonth(year, month){
   return new Date(year, month +1, 0).getDate()
 }
 
+export function composedDateFormat(year,month,date){
+  const day = new Date(year, month, date);
+  const newMonth = String( month + 1).padStart(2, "0");
+  const daysOfMonth = String(day.getDate()).padStart(2, "0");
+  return `${String(year)}-${newMonth}-${daysOfMonth}`;
+}
+
 
 // console.log(getDaysInMonth(2023, 8))  //9月
 // console.log(getBeginOfMonth(2023, 8)) // get 9/1

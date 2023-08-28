@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
-import DateView from "./DateView";
+import DateView from "../DateView/DateView";
 import "./Calendar.scss";
+import { processedData } from "../../data/data";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(9); // 5月
@@ -10,7 +11,7 @@ const Calendar = () => {
     { year: 2017, month: 10 },
     { year: 2017, month: 11 },
   ]);
-
+  const [chosenDay, setChosenDay] = useState(null);
   const newDisplayMonthsRef = useRef([]);
 
   const daysOfWeek = [
@@ -23,8 +24,10 @@ const Calendar = () => {
     "星期六",
   ];
 
-  const handleShowMonth = (month) => {
+  const handleShowMonth = (month, year) => {
     setCurrentMonth(month);
+    setCurrentYear(year);
+    setChosenDay(null);
   };
 
   const setNextMonth = () => {
@@ -44,6 +47,7 @@ const Calendar = () => {
     } else {
       setCurrentMonth(currentMonth + 1);
     }
+    setChosenDay(null);
   };
 
   const setPreviousMonth = () => {
@@ -61,31 +65,46 @@ const Calendar = () => {
     } else {
       setCurrentMonth(currentMonth - 1);
     }
+    setChosenDay(null);
   };
 
   function UpdatedYear() {
     const newDisplayMonths = [];
     return displayMonth.map((item) => {
+      const hasGroup = hasDataForMonth(processedData, item.year, item.month);
       newDisplayMonths.push({
         year: item.year + Math.floor(item.month / 12),
         month: (item.month + 1) % 12,
+        hasGroup: hasGroup,
       });
       newDisplayMonthsRef.current = newDisplayMonths;
-
       return (
         <div
           className={`shownMonth ${
             currentMonth === item.month ? "selected" : ""
           }`}
           key={item.month}
-          onClick={() => handleShowMonth(item.month)}
+          onClick={() => handleShowMonth(item.month, item.year)}
         >
-          <p>{item.year}</p>
-          {/* 讓 item.month 的數字只存在於 0-11 */}
-          <p>{(item.month + 1) % 12 === 0 ? 12 : (item.month + 1) % 12}月</p>
+          <div className="yearAndMonth">
+            <p>{item.year}</p>
+            {/* 讓 item.month 的數字只存在於 0-11 */}
+            <p>{(item.month + 1) % 12 === 0 ? 12 : (item.month + 1) % 12}月</p>
+          </div>
+          {!hasGroup && <div className="noGroup">無出發日</div>}
         </div>
       );
     });
+  }
+
+  function hasDataForMonth(dataObject, year, month) {
+    const targetPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
+    for (const key in dataObject) {
+      if (key.startsWith(targetPrefix)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   return (
@@ -105,7 +124,13 @@ const Calendar = () => {
             </div>
           ))}
         </div>
-        <DateView currentMonth={currentMonth} currentYear={currentYear} />
+        <DateView
+          currentMonth={currentMonth}
+          currentYear={currentYear}
+          data={processedData}
+          chosenDay={chosenDay}
+          setChosenDay={setChosenDay}
+        />
       </div>
     </div>
   );

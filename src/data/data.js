@@ -5,9 +5,12 @@ import data4 from './data4.json';
 
 //  以 jquery 列的屬性名稱來做資料整理
 const processData1 = data1.map((item) => ({
-  ...item,
+  guaranteed: item.guaranteed,
+  date: item.date,
+  price: item.price,
   available: item.availableVancancy,
   total: item.totalVacnacy,
+  status: item.status,
 }));
 
 const processData2 = data2.map((item) => ({
@@ -20,14 +23,20 @@ const processData2 = data2.map((item) => ({
 }));
 
 const processData3 = data3.map((item) => ({
-  ...item,
+  guaranteed: item.guaranteed,
+  date: item.date,
+  price: item.price,
   available: item.availableVancancy,
   total: item.totalVacnacy,
+  status: item.status,
 }));
 const processData4 = data4.map((item) => ({
-  ...item,
+  guaranteed: item.guaranteed,
+  date: item.date,
+  price: item.price,
   available: item.availableVancancy,
   total: item.totalVacnacy,
+  status: item.status,
 }));
 
 // 建立以日期為鍵的物件
@@ -43,12 +52,19 @@ export const processedData = [
       itemDate.getTime() - itemDate.getTimezoneOffset() * 60000
     ); // 調整時區偏移量
     const dateString = localDate.toISOString().split('T')[0];
-
-    // console.log('item', item);
-    // console.log('localDate');
-    // console.log('dateString', dateString);
-    // 轉換成 yyyy-mm-dd 格式
+    // 如果已經有相同日期的資料在物件中，將資料以陣列的形式儲存
+    if(result[dateString]){
+      // 如果已經有含兩筆以上的資料
+      if(Array.isArray(result[dateString])){
+        result[dateString].push(item)
+      } else {
+        // 目前只有單筆資料
+        result[dateString] = [result[dateString], item]
+      }
+    } else {
+    // 轉換成 yyyy-mm-dd 格式 (物件格式)
     result[dateString] = item;
+    }
   });
   return result;
 }, {});

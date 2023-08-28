@@ -22,6 +22,7 @@
    background-color:#fef6e1;
    height: 3.5rem;
    border-right: 1px solid rgb(236, 235, 235);
+   cursor: pointer;
 }
 
 .previous, .next {
@@ -68,16 +69,32 @@
 }
 
 .shownMonth {
-   @include flexRow;
+   @include flexColumn;
    flex-grow: 1;
    height: 100%;
-   gap: 0.3rem;
    margin-top: 0.25rem;
    text-align: center;
-   font-size: 1.2rem;
    border-radius: 1px;
+   gap:0rem;
    cursor: pointer;
+   
+   .yearAndMonth {
+    @include flexRow;
+    font-size: 1.4rem;
+    margin: 0rem;
+    height: 100%;
+    gap: 0.3rem;
 }
+   .noGroup {
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+    color:#0378af;
+}
+}
+
+
+
+
 
 .displayWeek {
     @include flexRow;
@@ -94,20 +111,13 @@
 }
 
 .date {
+  box-sizing: border-box;
   flex: 1 0 13%;
   height: 7rem;
   border: 1px solid rgb(236, 235, 235);
-  border-bottom: transparent;
-  border-left: transparent ; 
   background-color: white;  
+  cursor: pointer;
 }
-
-.empty {
-    flex: 1 0 13%;
-    height: 7rem;
-    background: #f6f6f7;
-    border: transparent;
-  }
 
 .selected {
     background: white;
@@ -115,3 +125,7 @@
   }
 
 
+  .chosen {
+    background: #fdf7e1;
+    border: 2px solid green;
+  }
