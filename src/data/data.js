@@ -39,7 +39,8 @@ const processData4 = data4.map((item) => ({
   status: item.status,
 }));
 
-// 建立以日期為鍵的物件
+// 建立以日期為鍵的物件 修改為("2023/08/29") key 的格式
+
 export const processedData = [
   processData1,
   processData2,
@@ -47,22 +48,18 @@ export const processedData = [
   processData4,
 ].reduce((result, group) => {
   group.forEach((item) => {
-    const itemDate = new Date(item.date);
-    const localDate = new Date(
-      itemDate.getTime() - itemDate.getTimezoneOffset() * 60000
-    ); // 調整時區偏移量
-    const dateString = localDate.toISOString().split('T')[0];
+    const dateString = item.date
     // 如果已經有相同日期的資料在物件中，將資料以陣列的形式儲存
     if(result[dateString]){
       // 如果已經有含兩筆以上的資料
       if(Array.isArray(result[dateString])){
         result[dateString].push(item)
       } else {
-        // 目前只有單筆資料
+        // 目前只有單筆資料 (用陣列儲存不同筆資料)
         result[dateString] = [result[dateString], item]
       }
     } else {
-    // 轉換成 yyyy-mm-dd 格式 (物件格式)
+    // 轉換成 yyyy/mm/dd 格式 (物件格式)
     result[dateString] = item;
     }
   });

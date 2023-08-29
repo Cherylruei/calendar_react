@@ -9,7 +9,7 @@ function formatePrice(price) {
   return newFormatPrice;
 }
 
-//  2017/10/1 的資料填入到 2017/09/30
+//  2017/10/1 要取日期 (1)
 export function CheckTheDate({
   numberOfDaysInMonth,
   currentYear,
@@ -21,13 +21,13 @@ export function CheckTheDate({
   function handleChosen(date) {
     setChosenDay(date);
   }
-
   return Array.from({ length: numberOfDaysInMonth }).map((_, index) => {
     const date = index + 1;
     const composedDate = composedDateFormat(currentYear, currentMonth, date);
     let showMoreGroups = null;
     let lowestPriceItem = null;
     let matchingEvents = [];
+
     if (data[composedDate]) {
       // 如果該日期的資料筆數大於 1 筆，則會顯示看更多團 $2XXX起 (陣列)
 

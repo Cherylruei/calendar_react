@@ -26,7 +26,7 @@ export function composedDateFormat(year,month,date){
   const day = new Date(year, month, date);
   const newMonth = String( month + 1).padStart(2, "0");
   const daysOfMonth = String(day.getDate()).padStart(2, "0");
-  return `${String(year)}-${newMonth}-${daysOfMonth}`;
+  return `${String(year)}/${newMonth}/${daysOfMonth}`;
 }
 
 

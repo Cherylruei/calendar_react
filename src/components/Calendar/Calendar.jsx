@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import DateView from "../DateView/DateView";
 import "./Calendar.scss";
 import { processedData } from "../../data/data";
 
 const Calendar = () => {
-  const [currentMonth, setCurrentMonth] = useState(9); // 5月
+  const [currentMonth, setCurrentMonth] = useState(9);
   const [currentYear, setCurrentYear] = useState(2017);
   const [displayMonth, setDisplayMonth] = useState([
     { year: 2017, month: 9 },
@@ -12,7 +12,6 @@ const Calendar = () => {
     { year: 2017, month: 11 },
   ]);
   const [chosenDay, setChosenDay] = useState(null);
-  const newDisplayMonthsRef = useRef([]);
 
   const daysOfWeek = [
     "星期日",
@@ -68,16 +67,9 @@ const Calendar = () => {
     setChosenDay(null);
   };
 
-  function UpdatedYear() {
-    const newDisplayMonths = [];
+  function MonthsDisplay() {
     return displayMonth.map((item) => {
       const hasGroup = hasDataForMonth(processedData, item.year, item.month);
-      newDisplayMonths.push({
-        year: item.year + Math.floor(item.month / 12),
-        month: (item.month + 1) % 12,
-        hasGroup: hasGroup,
-      });
-      newDisplayMonthsRef.current = newDisplayMonths;
       return (
         <div
           className={`shownMonth ${
@@ -98,7 +90,7 @@ const Calendar = () => {
   }
 
   function hasDataForMonth(dataObject, year, month) {
-    const targetPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
+    const targetPrefix = `${year}/${String(month + 1).padStart(2, "0")}`;
     for (const key in dataObject) {
       if (key.startsWith(targetPrefix)) {
         return true;
@@ -112,7 +104,7 @@ const Calendar = () => {
       <div className="monthPicker">
         <div className="previous" onClick={setPreviousMonth}></div>
         <div className="months">
-          <UpdatedYear />
+          <MonthsDisplay />
         </div>
         <div className="next" onClick={setNextMonth}></div>
       </div>
