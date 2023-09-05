@@ -2,6 +2,7 @@ import { useState } from "react";
 import DateView from "../DateView/DateView";
 import "./Calendar.scss";
 import { processedData } from "../../data/data";
+import { MonthsDisplay } from "../MonthDispay/MonthDisplay";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(9);
@@ -22,12 +23,6 @@ const Calendar = () => {
     "星期五",
     "星期六",
   ];
-
-  const handleShowMonth = (month, year) => {
-    setCurrentMonth(month);
-    setCurrentYear(year);
-    setChosenDay(null);
-  };
 
   const setNextMonth = () => {
     const currentPosition = displayMonth.findIndex(
@@ -67,46 +62,26 @@ const Calendar = () => {
     setChosenDay(null);
   };
 
-  function MonthsDisplay() {
-    return displayMonth.map((item) => {
-      const hasGroup = hasDataForMonth(processedData, item.year, item.month);
-      return (
-        <div
-          className={`shownMonth ${
-            currentMonth === item.month ? "selected" : ""
-          }`}
-          key={item.month}
-          onClick={() => handleShowMonth(item.month, item.year)}
-        >
-          <div className="yearAndMonth">
-            <p>{item.year}</p>
-            {/* 讓 item.month 的數字只存在於 0-11 */}
-            <p>{(item.month + 1) % 12 === 0 ? 12 : (item.month + 1) % 12}月</p>
-          </div>
-          {!hasGroup && <div className="noGroup">無出發日</div>}
-        </div>
-      );
-    });
-  }
-
-  function hasDataForMonth(dataObject, year, month) {
-    const targetPrefix = `${year}/${String(month + 1).padStart(2, "0")}`;
-    for (const key in dataObject) {
-      if (key.startsWith(targetPrefix)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   return (
     <div className="calendar">
       <div className="monthPicker">
-        <div className="previous" onClick={setPreviousMonth}></div>
-        <div className="months">
-          <MonthsDisplay />
+        <div onClick={setPreviousMonth} className="buttonWrap">
+          <div className="previous"></div>
         </div>
-        <div className="next" onClick={setNextMonth}></div>
+
+        <div className="months">
+          <MonthsDisplay
+            displayMonth={displayMonth}
+            data={processedData}
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+            setCurrentYear={setCurrentYear}
+            setChosenDay={setChosenDay}
+          />
+        </div>
+        <div onClick={setNextMonth} className="buttonWrap">
+          <div className="next"></div>
+        </div>
       </div>
       <div>
         <div className="displayWeek">

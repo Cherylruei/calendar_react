@@ -1,17 +1,26 @@
-@mixin flexColumn {
+@mixin flexCenter($direction){
     display: flex;
-    flex-direction: column;
-}
-
-@mixin flexRow {
-    display: flex;
-    flex-direction: row;
+    flex-direction: $direction;
     justify-content: center;
     align-items: center;
 }
 
+%arrow-position{
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;   
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .calendar {
-   @include flexColumn;
+    display: flex;
+    flex-direction: column;
     min-width: 768px;
     margin: 0.5rem;
     border: 1px solid  rgb(236, 235, 235);
@@ -19,7 +28,7 @@
 }
 
 .monthPicker {
-   @include flexRow;
+   @include flexCenter(row);
    background-color:#fef6e1;
    height: 3.5rem;
    border-right: 1px solid rgb(236, 235, 235);
@@ -34,35 +43,17 @@
 } 
 
 .previous::before {
-    content: " ";
-    display: block;
-    width: 0;
-    height: 0;
+    @extend %arrow-position;
     border-right: 10px solid #e10601;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;   
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .next::before {
-    content: " ";
-    display: block;
-    width: 0;
-    height: 0;
+    @extend %arrow-position;
     border-left: 10px solid #e10601;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;   
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .months {
-    @include flexRow;
+    @include flexCenter(row);
     min-width: 18rem;
     height: 100%;
     flex-grow: 9;
@@ -70,7 +61,7 @@
 }
 
 .shownMonth {
-   @include flexColumn;
+   @include flexCenter(column);
    flex-grow: 1;
    height: 100%;
    margin-top: 0.25rem;
@@ -80,7 +71,7 @@
    cursor: pointer;
    
    .yearAndMonth {
-    @include flexRow;
+    @include flexCenter(row);
     font-size: 1.4rem;
     margin: 0rem;
     height: 100%;
@@ -94,11 +85,8 @@
 }
 
 
-
-
-
 .displayWeek {
-    @include flexRow;
+    @include flexCenter(row);
     justify-content: space-evenly;
     height: 2rem;
     font-weight: 600;
@@ -129,4 +117,12 @@
   .chosen {
     background: #fdf7e1;
     border: 2px solid green;
+  }
+
+  .buttonWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-grow: 0.5;
   }
