@@ -35,9 +35,10 @@ const Calendar = () => {
         month: (item.month + 1) % 12,
       }));
 
+      const lastIndex = updatedMonths.length - 1;
       setDisplayMonth(updatedMonths);
-      setCurrentMonth(updatedMonths[2].month);
-      setCurrentYear(updatedMonths[2].year);
+      setCurrentMonth(updatedMonths[lastIndex].month);
+      setCurrentYear(updatedMonths[lastIndex].year);
     } else {
       setCurrentMonth(currentMonth + 1);
     }
