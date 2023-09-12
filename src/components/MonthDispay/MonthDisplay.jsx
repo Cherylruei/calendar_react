@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 export function MonthsDisplay({
-  data,
   currentMonth,
   setCurrentMonth,
   setCurrentYear,
   setChosenDay,
+  hasDataForMonth,
 }) {
   const [displayMonth, setDisplayMonth] = useState([
     { year: 2017, month: 9 },
@@ -65,7 +65,7 @@ export function MonthsDisplay({
       </div>
       <div className="months">
         {displayMonth.map((item) => {
-          const hasGroup = hasDataForMonth(data, item.year, item.month);
+          const hasGroup = hasDataForMonth(item.year, item.month);
           return (
             <div
               className={`shownMonth ${
@@ -91,14 +91,4 @@ export function MonthsDisplay({
       </div>
     </div>
   );
-}
-
-function hasDataForMonth(dataObject, year, month) {
-  const targetPrefix = `${year}/${String(month + 1).padStart(2, "0")}`;
-  for (const key in dataObject) {
-    if (key.startsWith(targetPrefix)) {
-      return true;
-    }
-  }
-  return false;
 }

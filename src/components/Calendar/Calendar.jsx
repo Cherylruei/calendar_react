@@ -33,14 +33,24 @@ const Calendar = () => {
     );
   }
 
+  function hasDataForMonth(year, month) {
+    const targetPrefix = `${year}/${String(month + 1).padStart(2, "0")}`;
+    for (const key in processedData) {
+      if (key.startsWith(targetPrefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   return (
     <div className="calendar">
       <MonthsDisplay
-        data={processedData}
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
         setCurrentYear={setCurrentYear}
         setChosenDay={setChosenDay}
+        hasDataForMonth={hasDataForMonth}
       />
       <div>
         <div className="displayWeek">
